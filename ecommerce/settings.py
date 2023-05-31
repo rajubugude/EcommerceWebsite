@@ -119,8 +119,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'raju.7102000@gmail.com'
-EMAIL_HOST_PASSWORD = 'gmnkhmsabuqjwtze'
+EMAIL_HOST_USER = 'your mail'
+EMAIL_HOST_PASSWORD = 'your pasword'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -149,5 +149,5 @@ MESSAGE_TAGS = {
 
 
 
-RAZORPAY_API_KEY = 'rzp_test_650HyfldOA7KKF'
-RAZORPAY_API_SECRET = 'C8ZpEObDUK9vr1vGUjs3QSPf'
+RAZORPAY_API_KEY = 'your key'
+RAZORPAY_API_SECRET = 'your key secret'
