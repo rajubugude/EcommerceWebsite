@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% block title %}
+Check Out
+{% endblock title %} 
+{% block content %}
+
+<h1>Welcome to Dhamaka Sale</h1>
+
+{% endblock content %} 
+{% block body %} 
+{% load static %}
+
+<!-- ======= Portfolio Section ======= -->
+<section id="portfolio" class="portfolio">
+  <div class="container">
+    {% for message in messages %}
+
+    <div
+      class="alert alert-{{message.tags}} alert-dismissible fade show"
+      role="alert"
+    >
+      <strong>{{message}}</strong>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %}
+
+    <div class="section-title">
+      <h2>Welcome to Shop</h2>
+      <h3>Checkout Page </h3>
+    </div>
+
+       
+       
+       <div class="container">
+           <div class="col my-4">
+               <h2>Step 1 - My Awesome Cart Express Checkout - Review Your Cart Items</h2>
+               <div class="my-4">
+                   <ul class="list-group" id="items">
+
+                    
+                   </ul>
+       
+                   <nav aria-label="breadcrumb">
+         <ol class="breadcrumb mt-3">
+           <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b>Rs. <span id="totalprice"></span> <span id="amount"></span></b>. Enter your details below & place your order. Thanks for using Shopping Cart</li>
+         </ol>
+       </nav>
+       
+       
+       
+                   
+               </div>
+           </div>
+           <div class="col my-4">
+               <h2>Step 2 - Enter Address & Other Details:</h2>
+               <form method="post" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                   <input type="hidden" name="itemsJson" id="itemsJson">
+                
+                   <input type="hidden" id="amt" name="amt">
+
+
+                   <div class="form-row">
+                       <div class="form-group col-md-6">
+                           <label for="inputname">Name</label>
+                           <input type="text" class="form-control mt-3" id="name" name="name" placeholder="Name" required>
+                       </div>
+                       <div class="form-group col-md-6">
+                           <label for="inputEmail4">Email</label>
+                           <input type="email" class="form-control mt-3" id="email" name="email" placeholder="Email" value="{{user.email}}" required>
+                       </div>
+                    
+                   </div>
+                    <div class="form-row">
+                   <div class="form-group col-md-6">
+                       <label for="inputAddress">Address</label>
+                       <input type="text" class="form-control mt-3" id="address1" name="address1" placeholder="1234 Main St" required>
+                   </div>
+       
+                 
+                 
+                   <div class="form-row">
+                       <div class="form-group col-md-6">
+                           <label for="inputCity">City</label>
+                           <input type="text" class="form-control mt-3" id="city" name="city" required>
+                       </div>
+                       <div class="form-group col-md-6">
+                           <label for="inputState">State</label>
+                           <input type="text" class="form-control mt-3" id="state" name="state"  placeholder="Enter State" required>
+                       </div>
+                       </div>
+                     
+                    <div class="form-row">
+                    <div class="form-group col-md-6">
+                           <label for="inputZip">Pin Code</label>
+                           <input type="number" class="form-control mt-3" id="zip_code" name="zip_code" required>
+                       </div>
+                   <div class="form-group col-md-6">
+                       <label for="inputZip">Phone Number</label>
+                       <input type="number" class="form-control mt-3" id="phone" name="phone" required>
+                   </div>
+                   <br>
+               
+                   
+                   <button id="btn" type="submit"  class="btn btn-success btn-sm btn-block col-md-4">Place Order</button>
+               </form>
+           </div>
+       </div>
+
+
+       
+
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<!-- Include Razorpay checkout.js library -->
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  var razorpayOptions = {
+    key: 'rzp_test_650HyfldOA7KKF',
+    amount: {{ amount }},
+    currency: 'INR',
+    name: 'MYKART',
+    description: 'Payment',
+    image: 'https://example.com/your-logo.png',
+    order_id: '{{ razorpay_order.id }}',
+    handler: function (response) {
+      // Handle the response after successful payment
+      console.log(response);
+      // Redirect to the handle_payment URL with the payment ID
+      console.log("inside handler")
+     window.location.href = "{% url 'handle_payment' %}?payment_id=" + response.razorpay_payment_id + "&razorpay_order_id=" + response.razorpay_order_id + "&signature=" + response.razorpay_signature;
+      //window.location.href = "{% url 'handle_payment' %}?payment_id=" + response.razorpay_payment_id;
+    },
+  };
+  
+  var rzp1 = new Razorpay(razorpayOptions);
+  
+  // Add event listener to the payment button
+  document.getElementById("btn").onclick = function (e) {
+    rzp1.open();
+    e.preventDefault();
+  };
+
+  rzp1.on("payment.success", function(response) {
+    // Handle the payment success event
+    console.log("Payment Successful!");
+    localStorage.removeItem('cart'); // Remove the cart items from localStorage
+    window.location.href = "{% url 'handle_payment' %}?payment_id=" + response.razorpay_payment_id + "&razorpay_order_id=" + response.razorpay_order_id + "&signature=" + response.razorpay_signature;
+  });
+  
+  rzp1.on("payment.error", function(response) {
+    // Handle the payment error event
+    console.log("Payment Error:", response.error.code, response.error.description);
+  });
+</script>
+
+
+<script>
+    // Check if cart exists in localStorage, if not, initialize an empty cart object
+var cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+
+var sum = 0;
+var totalPrice = 0;
+
+// Check if the cart object is empty
+if (Object.keys(cart).length === 0 && cart.constructor === Object) {
+   // Cart is empty
+   var mystr = `<p>Your cart is empty, please add some items to your cart before checking out!</p>`;
+   $('#items').append(mystr);
+} else {
+   // Iterate over cart items and calculate the total price
+   for (var item in cart) {
+       var name = cart[item][1];
+       var qty = cart[item][0];
+       var itemPrice = cart[item][2];
+       sum += qty;
+       totalPrice += qty * itemPrice;
+       
+       var mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                      ${name}
+                      <div><b> Price : ${itemPrice}</b></div>
+                      <span class="badge badge-primary badge-pill">${qty}</span>
+                   </li>`;
+       $('#items').append(mystr);
+   }
+}
+
+// Update the total price in the HTML
+document.getElementById('totalprice').textContent = totalPrice;
+
+// Set the value of itemsJson input field for form submission
+$('#itemsJson').val(JSON.stringify(cart));
+
+
+// Set the 'amt' input field value to the total price
+document.getElementById("amt").value = totalPrice;
+</script>
+
+{% endblock body %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Payment Success</h1>
+<p>Payment ID: {{ payment_id }}</p>
+{% comment %} <p>Order ID: {{ order.order_id }}</p>
+<p>Amount: {{ order.amount }}</p>
+<p>Ordered Items: {{ order.items_json }}</p> {% endcomment %}
+{% endblock %}

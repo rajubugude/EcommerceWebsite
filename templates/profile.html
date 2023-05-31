@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Profile Page{% endblock title %}
+{% block body %}
+<section id="portfolio" class="portfolio">
+    <div class="container">
+        <h2>My Profile</h2>
+        <hr>
+        <p>Here are your orders</p>
+
+        <table class="table table-info table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Products</th>
+                    <th scope="col">Amount Paid</th>
+                    <th scope="col">Payment Status</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Delivery Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items_list %}
+                <tr>
+                    <td>{{ item.order.order_id }}</td>
+                    <td>{{ item.order.name }}</td>
+                    <td>
+                        <ul>
+                            {% for product in item.items %}
+                            <li>{{ product.name }} (Quantity: {{ product.quantity }}, Price: {{ product.price }},
+                                Total: {{ product.total }})</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>{{ item.order.amountpaid }}</td>
+                    <td>{{ item.order.paymentstatus }}</td>
+                    <td>{{ item.order.address1 }}</td>
+                    <td>{{ item.order.phone }}</td>
+                    <td>
+                        {% for status in item.status %}
+                        {% if status.delivered %}
+                        <i class="fa-solid fa-circle-check"></i> Delivered
+                        {% else %}
+                        <i class="fa-solid fa-truck"></i> Not Delivered
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock body %}
