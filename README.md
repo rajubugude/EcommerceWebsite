@@ -8,3 +8,6 @@ It is an e-commerce website built using Django.
 * Integrated a payment gateway (Razorpay) to enable secure online transactions and will send invoices to mail
 * Dockerized this project
 * Finally deployed the website using Amazon Web Services(EC2)
+
+
+![Project Demo](https://www.youtube.com/watch?v=zrAiJte4CSE&lc=Ugx3OgsmyuApErbSkFp4AaABAg)
