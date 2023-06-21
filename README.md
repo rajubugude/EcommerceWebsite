@@ -10,5 +10,5 @@ It is an e-commerce website built using Django.
 * Finally deployed the website using Amazon Web Services(EC2)
 
 
-## To check out project demo 
+## To check out the project demo, go to the following link
 ![Youtube](https://www.youtube.com/watch?v=zrAiJte4CSE&lc=Ugx3OgsmyuApErbSkFp4AaABAg)
