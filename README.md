@@ -11,4 +11,4 @@ It is an e-commerce website built using Django.
 
 
 ## To check out the project demo, go to the following link
-![Youtube](https://www.youtube.com/watch?v=zrAiJte4CSE&lc=Ugx3OgsmyuApErbSkFp4AaABAg)
+[Youtube](https://www.youtube.com/watch?v=zrAiJte4CSE&lc=Ugx3OgsmyuApErbSkFp4AaABAg)
